@@ -17,3 +17,15 @@ docker-compose up -d hub demoapp
 docker-compose run --rm curl
 docker-compose run --rm webdriver
 ```
+
+To debug interactions between the different services:
+```shell
+docker-compose up
+```
+
+
+# Cleanup
+
+```shell
+docker-compose down
+```

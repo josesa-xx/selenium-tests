@@ -23,3 +23,10 @@ To debug interactions between the different services:
 ```shell
 docker-compose up
 ```
+
+
+# Cleanup
+
+```shell
+docker-compose down
+```
