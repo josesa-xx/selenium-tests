@@ -1,7 +1,8 @@
 # Purpose
 
-Unfortunatelly the docker node/standalone currently doesn't cope well with the containers dns names inside the docker compose environment.
+This sample ilustrates a possible way to test a web application in selenium using docker-compose for a self-contained environment.
 
+Unfortunatelly the docker node/standalone currently doesn't cope well with the containers dns names inside the docker compose environment.
 
 # Usage
 
