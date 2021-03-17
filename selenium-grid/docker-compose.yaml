@@ -1,0 +1,69 @@
+version: '3.5'
+
+services:
+
+  hub:
+    image: selenium/hub:4.0.0-beta-2-prerelease-20210315
+    container_name: selenium-hub
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    healthcheck:
+      test: /opt/bin/check-grid.sh
+
+  chrome:
+    image: selenium/node-chrome:4.0.0-beta-2-prerelease-20210315
+    container_name: chrome
+    shm_size: '1gb'
+    depends_on:
+      - hub
+    ports:
+      - "6900:5900"
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+    healthcheck:
+      test: pgrep Xvfb
+
+  firefox:
+    image: selenium/node-firefox:4.0.0-beta-2-prerelease-20210315
+    container_name: firefox
+    shm_size: '1gb'
+    depends_on:
+      - hub
+    ports:
+      - "6901:5900"
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+    healthcheck:
+      test: pgrep Xvfb
+
+  demoapp:
+    image: python:3-slim
+    container_name: demoapp
+    ports:
+      - 8000:8000
+    command: python3 -m http.server
+
+  webdriver:
+    image: python:3
+    container_name: webdriver
+    depends_on:
+      - demoapp
+      - hub
+      - firefox
+    volumes:
+      - .:/workdir
+    working_dir: /workdir
+    command: ./webdriver_check.sh
+
+  curl:
+    image: curlimages/curl
+    container_name: curl
+    command: curl -sS http://demoapp:8000
+    depends_on:
+      - demoapp

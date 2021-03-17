@@ -1,0 +1,37 @@
+version: '3.5'
+
+services:
+
+  hub:
+    image: selenium/standalone-docker:4.0.0-beta-2-prerelease-20210315
+    container_name: selenium-hub
+    ports:
+      - "4444:4444"
+    volumes:
+      - ./config.toml:/opt/bin/config.toml
+      - ./assets:/opt/selenium/assets
+    healthcheck:
+      test: /opt/bin/check-grid.sh
+
+  demoapp:
+    image: python:3-slim
+    container_name: demoapp
+    ports:
+      - 8000:8000
+    command: python3 -m http.server
+
+  webdriver:
+    image: python:3
+    depends_on:
+      - demoapp
+      - hub
+    volumes:
+      - .:/workdir
+    working_dir: /workdir
+    command: ./webdriver_check.sh
+
+  curl:
+    image: curlimages/curl
+    command: curl -sS http://demoapp:8000
+    depends_on:
+      - demoapp
