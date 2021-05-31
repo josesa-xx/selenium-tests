@@ -1,7 +1,7 @@
 [docker]
 configs = [
-    "selenium/standalone-firefox:4.0.0-beta-3-20210426", "{\"browserName\": \"firefox\"}",
-    "selenium/standalone-chrome:4.0.0-beta-3-20210426", "{\"browserName\": \"chrome\"}"
+    "selenium/standalone-firefox:4.0.0-beta-4-prerelease-20210527", "{\"browserName\": \"firefox\"}",
+    "selenium/standalone-chrome:4.0.0-beta-4-prerelease-20210527", "{\"browserName\": \"chrome\"}"
  ]
 url = "http://host.docker.internal:2375"
 video-image = "selenium/video:ffmpeg-4.3.1-20210315"

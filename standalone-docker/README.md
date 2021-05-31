@@ -31,9 +31,8 @@ Stop docker-compose containers and remove volumes
 
 # private registry
 It should be possible to use docker proxies (ie: artifactory, nexus).
-currently this is a bug:
 
-https://github.com/SeleniumHQ/docker-selenium/issues/1264
+[bug fixed] https://github.com/SeleniumHQ/docker-selenium/issues/1264
 
 This can be simulated using a private registry as follows:
 ```shell
@@ -42,7 +41,7 @@ docker run -d -p 5000:5000 --restart=always --name registry registry:2
 
 # copy selenium images from internet
 # into private registry
-release="4.0.0-beta-3-20210426"
+release="4.0.0-beta-4-prerelease-20210527"
 for node in docker chrome firefox; do
   image="selenium/standalone-${node}:${release}"
   docker pull ${image}
